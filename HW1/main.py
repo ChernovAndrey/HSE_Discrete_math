@@ -1,11 +1,7 @@
 import ply.yacc as yacc
 import ply.lex as lex
 
-# -----------------------------------------------------------------------------
-# calc.py
-#
-# A simple calculator with variables -- all in one file.
-# -----------------------------------------------------------------------------
+
 SAT = 'satisfiable'
 NO_SAT = 'not satisfiable'
 tokens = (
