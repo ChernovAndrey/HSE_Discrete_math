@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "INTquest : exprexpr : tmexpr : '-' tmexpr : expr '+' tmexpr : expr '-' tmtm : montm : '(' expr ')'tm : tm '(' expr ')'mon : intopt 'x' powoptmon : INTintopt : INT\n              | powopt : '^' INT\n              | "
+_lr_signature = 'CONJUCTION DISJUCTION IMPLICATION LPAREN RPAREN VARIABLEstatement : expressionexpression : expression CONJUCTION expressionexpression : expression DISJUCTION expressionexpression : expression IMPLICATION expressionexpression : LPAREN expression RPARENexpression : VARIABLE'
     
-_lr_action_items = {'-':([0,2,3,5,6,8,11,12,13,14,15,16,17,18,19,21,22,],[4,10,-2,-6,4,-10,4,-3,10,-14,-4,-5,10,-7,-9,-8,-13,]),'(':([0,3,4,5,6,8,9,10,11,12,14,15,16,18,19,21,22,],[6,11,6,-6,6,-10,6,6,6,11,-14,11,11,-7,-9,-8,-13,]),'INT':([0,4,6,9,10,11,20,],[8,8,8,8,8,8,22,]),'x':([0,4,6,7,8,9,10,11,],[-12,-12,-12,14,-11,-12,-12,-12,]),'$end':([1,2,3,5,8,12,14,15,16,18,19,21,22,],[0,-1,-2,-6,-10,-3,-14,-4,-5,-7,-9,-8,-13,]),'+':([2,3,5,8,12,13,14,15,16,17,18,19,21,22,],[9,-2,-6,-10,-3,9,-14,-4,-5,9,-7,-9,-8,-13,]),')':([3,5,8,12,13,14,15,16,17,18,19,21,22,],[-2,-6,-10,-3,18,-14,-4,-5,21,-7,-9,-8,-13,]),'^':([14,],[20,]),}
+_lr_action_items = {'LPAREN':([0,3,5,6,7,],[3,3,3,3,3,]),'VARIABLE':([0,3,5,6,7,],[4,4,4,4,4,]),'$end':([1,2,4,9,10,11,12,],[0,-1,-6,-2,-3,-4,-5,]),'CONJUCTION':([2,4,8,9,10,11,12,],[5,-6,5,5,5,5,-5,]),'DISJUCTION':([2,4,8,9,10,11,12,],[6,-6,6,6,6,6,-5,]),'IMPLICATION':([2,4,8,9,10,11,12,],[7,-6,7,7,7,7,-5,]),'RPAREN':([4,8,9,10,11,12,],[-6,12,-2,-3,-4,-5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'quest':([0,],[1,]),'expr':([0,6,11,],[2,13,17,]),'tm':([0,4,6,9,10,11,],[3,12,3,15,16,3,]),'mon':([0,4,6,9,10,11,],[5,5,5,5,5,5,]),'intopt':([0,4,6,9,10,11,],[7,7,7,7,7,7,]),'powopt':([14,],[19,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,3,5,6,7,],[2,8,9,10,11,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,19 +26,11 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> quest","S'",1,None,None,None),
-  ('quest -> expr','quest',1,'p_final','polynomial_simplifier.py',123),
-  ('expr -> tm','expr',1,'p_expr_tm','polynomial_simplifier.py',129),
-  ('expr -> - tm','expr',2,'p_expr_mtm','polynomial_simplifier.py',134),
-  ('expr -> expr + tm','expr',3,'p_expr_addtm','polynomial_simplifier.py',139),
-  ('expr -> expr - tm','expr',3,'p_expr_addmtm','polynomial_simplifier.py',144),
-  ('tm -> mon','tm',1,'p_tm_mon','polynomial_simplifier.py',149),
-  ('tm -> ( expr )','tm',3,'p_tm_brackets','polynomial_simplifier.py',154),
-  ('tm -> tm ( expr )','tm',4,'p_tm_mult','polynomial_simplifier.py',159),
-  ('mon -> intopt x powopt','mon',3,'p_mon','polynomial_simplifier.py',164),
-  ('mon -> INT','mon',1,'p_mon_free','polynomial_simplifier.py',170),
-  ('intopt -> INT','intopt',1,'p_intopt','polynomial_simplifier.py',175),
-  ('intopt -> <empty>','intopt',0,'p_intopt','polynomial_simplifier.py',176),
-  ('powopt -> ^ INT','powopt',2,'p_powopt','polynomial_simplifier.py',184),
-  ('powopt -> <empty>','powopt',0,'p_powopt','polynomial_simplifier.py',185),
+  ("S' -> statement","S'",1,None,None,None),
+  ('statement -> expression','statement',1,'p_statement_expr','main.py',58),
+  ('expression -> expression CONJUCTION expression','expression',3,'p_expression_conjuction','main.py',71),
+  ('expression -> expression DISJUCTION expression','expression',3,'p_expression_disjuction','main.py',80),
+  ('expression -> expression IMPLICATION expression','expression',3,'p_expression_implication','main.py',87),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','main.py',98),
+  ('expression -> VARIABLE','expression',1,'p_expression_var','main.py',103),
 ]

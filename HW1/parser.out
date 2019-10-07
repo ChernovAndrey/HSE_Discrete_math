@@ -2,358 +2,228 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Grammar
 
-Rule 0     S' -> quest
-Rule 1     quest -> expr
-Rule 2     expr -> tm
-Rule 3     expr -> - tm
-Rule 4     expr -> expr + tm
-Rule 5     expr -> expr - tm
-Rule 6     tm -> mon
-Rule 7     tm -> ( expr )
-Rule 8     tm -> tm ( expr )
-Rule 9     mon -> intopt x powopt
-Rule 10    mon -> INT
-Rule 11    intopt -> INT
-Rule 12    intopt -> <empty>
-Rule 13    powopt -> ^ INT
-Rule 14    powopt -> <empty>
+Rule 0     S' -> statement
+Rule 1     statement -> expression
+Rule 2     expression -> expression CONJUCTION expression
+Rule 3     expression -> expression DISJUCTION expression
+Rule 4     expression -> expression IMPLICATION expression
+Rule 5     expression -> LPAREN expression RPAREN
+Rule 6     expression -> VARIABLE
 
 Terminals, with rules where they appear
 
-(                    : 7 8
-)                    : 7 8
-+                    : 4
--                    : 3 5
-INT                  : 10 11 13
-^                    : 13
+CONJUCTION           : 2
+DISJUCTION           : 3
+IMPLICATION          : 4
+LPAREN               : 5
+RPAREN               : 5
+VARIABLE             : 6
 error                : 
-x                    : 9
 
 Nonterminals, with rules where they appear
 
-expr                 : 1 4 5 7 8
-intopt               : 9
-mon                  : 6
-powopt               : 9
-quest                : 0
-tm                   : 2 3 4 5 8
+expression           : 1 2 2 3 3 4 4 5
+statement            : 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . quest
-    (1) quest -> . expr
-    (2) expr -> . tm
-    (3) expr -> . - tm
-    (4) expr -> . expr + tm
-    (5) expr -> . expr - tm
-    (6) tm -> . mon
-    (7) tm -> . ( expr )
-    (8) tm -> . tm ( expr )
-    (9) mon -> . intopt x powopt
-    (10) mon -> . INT
-    (11) intopt -> . INT
-    (12) intopt -> .
+    (0) S' -> . statement
+    (1) statement -> . expression
+    (2) expression -> . expression CONJUCTION expression
+    (3) expression -> . expression DISJUCTION expression
+    (4) expression -> . expression IMPLICATION expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . VARIABLE
 
-    -               shift and go to state 4
-    (               shift and go to state 6
-    INT             shift and go to state 8
-    x               reduce using rule 12 (intopt -> .)
+    LPAREN          shift and go to state 3
+    VARIABLE        shift and go to state 4
 
-    quest                          shift and go to state 1
-    expr                           shift and go to state 2
-    tm                             shift and go to state 3
-    mon                            shift and go to state 5
-    intopt                         shift and go to state 7
+    statement                      shift and go to state 1
+    expression                     shift and go to state 2
 
 state 1
 
-    (0) S' -> quest .
+    (0) S' -> statement .
 
 
 
 state 2
 
-    (1) quest -> expr .
-    (4) expr -> expr . + tm
-    (5) expr -> expr . - tm
+    (1) statement -> expression .
+    (2) expression -> expression . CONJUCTION expression
+    (3) expression -> expression . DISJUCTION expression
+    (4) expression -> expression . IMPLICATION expression
 
-    $end            reduce using rule 1 (quest -> expr .)
-    +               shift and go to state 9
-    -               shift and go to state 10
+    $end            reduce using rule 1 (statement -> expression .)
+    CONJUCTION      shift and go to state 5
+    DISJUCTION      shift and go to state 6
+    IMPLICATION     shift and go to state 7
 
 
 state 3
 
-    (2) expr -> tm .
-    (8) tm -> tm . ( expr )
+    (5) expression -> LPAREN . expression RPAREN
+    (2) expression -> . expression CONJUCTION expression
+    (3) expression -> . expression DISJUCTION expression
+    (4) expression -> . expression IMPLICATION expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . VARIABLE
 
-    +               reduce using rule 2 (expr -> tm .)
-    -               reduce using rule 2 (expr -> tm .)
-    $end            reduce using rule 2 (expr -> tm .)
-    )               reduce using rule 2 (expr -> tm .)
-    (               shift and go to state 11
+    LPAREN          shift and go to state 3
+    VARIABLE        shift and go to state 4
 
+    expression                     shift and go to state 8
 
 state 4
 
-    (3) expr -> - . tm
-    (6) tm -> . mon
-    (7) tm -> . ( expr )
-    (8) tm -> . tm ( expr )
-    (9) mon -> . intopt x powopt
-    (10) mon -> . INT
-    (11) intopt -> . INT
-    (12) intopt -> .
+    (6) expression -> VARIABLE .
 
-    (               shift and go to state 6
-    INT             shift and go to state 8
-    x               reduce using rule 12 (intopt -> .)
+    CONJUCTION      reduce using rule 6 (expression -> VARIABLE .)
+    DISJUCTION      reduce using rule 6 (expression -> VARIABLE .)
+    IMPLICATION     reduce using rule 6 (expression -> VARIABLE .)
+    $end            reduce using rule 6 (expression -> VARIABLE .)
+    RPAREN          reduce using rule 6 (expression -> VARIABLE .)
 
-    tm                             shift and go to state 12
-    mon                            shift and go to state 5
-    intopt                         shift and go to state 7
 
 state 5
 
-    (6) tm -> mon .
+    (2) expression -> expression CONJUCTION . expression
+    (2) expression -> . expression CONJUCTION expression
+    (3) expression -> . expression DISJUCTION expression
+    (4) expression -> . expression IMPLICATION expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . VARIABLE
 
-    (               reduce using rule 6 (tm -> mon .)
-    +               reduce using rule 6 (tm -> mon .)
-    -               reduce using rule 6 (tm -> mon .)
-    $end            reduce using rule 6 (tm -> mon .)
-    )               reduce using rule 6 (tm -> mon .)
+    LPAREN          shift and go to state 3
+    VARIABLE        shift and go to state 4
 
+    expression                     shift and go to state 9
 
 state 6
 
-    (7) tm -> ( . expr )
-    (2) expr -> . tm
-    (3) expr -> . - tm
-    (4) expr -> . expr + tm
-    (5) expr -> . expr - tm
-    (6) tm -> . mon
-    (7) tm -> . ( expr )
-    (8) tm -> . tm ( expr )
-    (9) mon -> . intopt x powopt
-    (10) mon -> . INT
-    (11) intopt -> . INT
-    (12) intopt -> .
+    (3) expression -> expression DISJUCTION . expression
+    (2) expression -> . expression CONJUCTION expression
+    (3) expression -> . expression DISJUCTION expression
+    (4) expression -> . expression IMPLICATION expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . VARIABLE
 
-    -               shift and go to state 4
-    (               shift and go to state 6
-    INT             shift and go to state 8
-    x               reduce using rule 12 (intopt -> .)
+    LPAREN          shift and go to state 3
+    VARIABLE        shift and go to state 4
 
-    expr                           shift and go to state 13
-    tm                             shift and go to state 3
-    mon                            shift and go to state 5
-    intopt                         shift and go to state 7
+    expression                     shift and go to state 10
 
 state 7
 
-    (9) mon -> intopt . x powopt
+    (4) expression -> expression IMPLICATION . expression
+    (2) expression -> . expression CONJUCTION expression
+    (3) expression -> . expression DISJUCTION expression
+    (4) expression -> . expression IMPLICATION expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . VARIABLE
 
-    x               shift and go to state 14
+    LPAREN          shift and go to state 3
+    VARIABLE        shift and go to state 4
 
+    expression                     shift and go to state 11
 
 state 8
 
-    (10) mon -> INT .
-    (11) intopt -> INT .
+    (5) expression -> LPAREN expression . RPAREN
+    (2) expression -> expression . CONJUCTION expression
+    (3) expression -> expression . DISJUCTION expression
+    (4) expression -> expression . IMPLICATION expression
 
-    (               reduce using rule 10 (mon -> INT .)
-    +               reduce using rule 10 (mon -> INT .)
-    -               reduce using rule 10 (mon -> INT .)
-    $end            reduce using rule 10 (mon -> INT .)
-    )               reduce using rule 10 (mon -> INT .)
-    x               reduce using rule 11 (intopt -> INT .)
+    RPAREN          shift and go to state 12
+    CONJUCTION      shift and go to state 5
+    DISJUCTION      shift and go to state 6
+    IMPLICATION     shift and go to state 7
 
 
 state 9
 
-    (4) expr -> expr + . tm
-    (6) tm -> . mon
-    (7) tm -> . ( expr )
-    (8) tm -> . tm ( expr )
-    (9) mon -> . intopt x powopt
-    (10) mon -> . INT
-    (11) intopt -> . INT
-    (12) intopt -> .
+    (2) expression -> expression CONJUCTION expression .
+    (2) expression -> expression . CONJUCTION expression
+    (3) expression -> expression . DISJUCTION expression
+    (4) expression -> expression . IMPLICATION expression
 
-    (               shift and go to state 6
-    INT             shift and go to state 8
-    x               reduce using rule 12 (intopt -> .)
+  ! shift/reduce conflict for CONJUCTION resolved as shift
+  ! shift/reduce conflict for DISJUCTION resolved as shift
+  ! shift/reduce conflict for IMPLICATION resolved as shift
+    $end            reduce using rule 2 (expression -> expression CONJUCTION expression .)
+    RPAREN          reduce using rule 2 (expression -> expression CONJUCTION expression .)
+    CONJUCTION      shift and go to state 5
+    DISJUCTION      shift and go to state 6
+    IMPLICATION     shift and go to state 7
 
-    tm                             shift and go to state 15
-    mon                            shift and go to state 5
-    intopt                         shift and go to state 7
+  ! CONJUCTION      [ reduce using rule 2 (expression -> expression CONJUCTION expression .) ]
+  ! DISJUCTION      [ reduce using rule 2 (expression -> expression CONJUCTION expression .) ]
+  ! IMPLICATION     [ reduce using rule 2 (expression -> expression CONJUCTION expression .) ]
+
 
 state 10
 
-    (5) expr -> expr - . tm
-    (6) tm -> . mon
-    (7) tm -> . ( expr )
-    (8) tm -> . tm ( expr )
-    (9) mon -> . intopt x powopt
-    (10) mon -> . INT
-    (11) intopt -> . INT
-    (12) intopt -> .
+    (3) expression -> expression DISJUCTION expression .
+    (2) expression -> expression . CONJUCTION expression
+    (3) expression -> expression . DISJUCTION expression
+    (4) expression -> expression . IMPLICATION expression
 
-    (               shift and go to state 6
-    INT             shift and go to state 8
-    x               reduce using rule 12 (intopt -> .)
+  ! shift/reduce conflict for CONJUCTION resolved as shift
+  ! shift/reduce conflict for DISJUCTION resolved as shift
+  ! shift/reduce conflict for IMPLICATION resolved as shift
+    $end            reduce using rule 3 (expression -> expression DISJUCTION expression .)
+    RPAREN          reduce using rule 3 (expression -> expression DISJUCTION expression .)
+    CONJUCTION      shift and go to state 5
+    DISJUCTION      shift and go to state 6
+    IMPLICATION     shift and go to state 7
 
-    tm                             shift and go to state 16
-    mon                            shift and go to state 5
-    intopt                         shift and go to state 7
+  ! CONJUCTION      [ reduce using rule 3 (expression -> expression DISJUCTION expression .) ]
+  ! DISJUCTION      [ reduce using rule 3 (expression -> expression DISJUCTION expression .) ]
+  ! IMPLICATION     [ reduce using rule 3 (expression -> expression DISJUCTION expression .) ]
+
 
 state 11
 
-    (8) tm -> tm ( . expr )
-    (2) expr -> . tm
-    (3) expr -> . - tm
-    (4) expr -> . expr + tm
-    (5) expr -> . expr - tm
-    (6) tm -> . mon
-    (7) tm -> . ( expr )
-    (8) tm -> . tm ( expr )
-    (9) mon -> . intopt x powopt
-    (10) mon -> . INT
-    (11) intopt -> . INT
-    (12) intopt -> .
+    (4) expression -> expression IMPLICATION expression .
+    (2) expression -> expression . CONJUCTION expression
+    (3) expression -> expression . DISJUCTION expression
+    (4) expression -> expression . IMPLICATION expression
 
-    -               shift and go to state 4
-    (               shift and go to state 6
-    INT             shift and go to state 8
-    x               reduce using rule 12 (intopt -> .)
+  ! shift/reduce conflict for CONJUCTION resolved as shift
+  ! shift/reduce conflict for DISJUCTION resolved as shift
+  ! shift/reduce conflict for IMPLICATION resolved as shift
+    $end            reduce using rule 4 (expression -> expression IMPLICATION expression .)
+    RPAREN          reduce using rule 4 (expression -> expression IMPLICATION expression .)
+    CONJUCTION      shift and go to state 5
+    DISJUCTION      shift and go to state 6
+    IMPLICATION     shift and go to state 7
 
-    tm                             shift and go to state 3
-    expr                           shift and go to state 17
-    mon                            shift and go to state 5
-    intopt                         shift and go to state 7
+  ! CONJUCTION      [ reduce using rule 4 (expression -> expression IMPLICATION expression .) ]
+  ! DISJUCTION      [ reduce using rule 4 (expression -> expression IMPLICATION expression .) ]
+  ! IMPLICATION     [ reduce using rule 4 (expression -> expression IMPLICATION expression .) ]
+
 
 state 12
 
-    (3) expr -> - tm .
-    (8) tm -> tm . ( expr )
+    (5) expression -> LPAREN expression RPAREN .
 
-    +               reduce using rule 3 (expr -> - tm .)
-    -               reduce using rule 3 (expr -> - tm .)
-    $end            reduce using rule 3 (expr -> - tm .)
-    )               reduce using rule 3 (expr -> - tm .)
-    (               shift and go to state 11
+    CONJUCTION      reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    DISJUCTION      reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    IMPLICATION     reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 5 (expression -> LPAREN expression RPAREN .)
 
-
-state 13
-
-    (7) tm -> ( expr . )
-    (4) expr -> expr . + tm
-    (5) expr -> expr . - tm
-
-    )               shift and go to state 18
-    +               shift and go to state 9
-    -               shift and go to state 10
-
-
-state 14
-
-    (9) mon -> intopt x . powopt
-    (13) powopt -> . ^ INT
-    (14) powopt -> .
-
-    ^               shift and go to state 20
-    (               reduce using rule 14 (powopt -> .)
-    +               reduce using rule 14 (powopt -> .)
-    -               reduce using rule 14 (powopt -> .)
-    $end            reduce using rule 14 (powopt -> .)
-    )               reduce using rule 14 (powopt -> .)
-
-    powopt                         shift and go to state 19
-
-state 15
-
-    (4) expr -> expr + tm .
-    (8) tm -> tm . ( expr )
-
-    +               reduce using rule 4 (expr -> expr + tm .)
-    -               reduce using rule 4 (expr -> expr + tm .)
-    $end            reduce using rule 4 (expr -> expr + tm .)
-    )               reduce using rule 4 (expr -> expr + tm .)
-    (               shift and go to state 11
-
-
-state 16
-
-    (5) expr -> expr - tm .
-    (8) tm -> tm . ( expr )
-
-    +               reduce using rule 5 (expr -> expr - tm .)
-    -               reduce using rule 5 (expr -> expr - tm .)
-    $end            reduce using rule 5 (expr -> expr - tm .)
-    )               reduce using rule 5 (expr -> expr - tm .)
-    (               shift and go to state 11
-
-
-state 17
-
-    (8) tm -> tm ( expr . )
-    (4) expr -> expr . + tm
-    (5) expr -> expr . - tm
-
-    )               shift and go to state 21
-    +               shift and go to state 9
-    -               shift and go to state 10
-
-
-state 18
-
-    (7) tm -> ( expr ) .
-
-    (               reduce using rule 7 (tm -> ( expr ) .)
-    +               reduce using rule 7 (tm -> ( expr ) .)
-    -               reduce using rule 7 (tm -> ( expr ) .)
-    $end            reduce using rule 7 (tm -> ( expr ) .)
-    )               reduce using rule 7 (tm -> ( expr ) .)
-
-
-state 19
-
-    (9) mon -> intopt x powopt .
-
-    (               reduce using rule 9 (mon -> intopt x powopt .)
-    +               reduce using rule 9 (mon -> intopt x powopt .)
-    -               reduce using rule 9 (mon -> intopt x powopt .)
-    $end            reduce using rule 9 (mon -> intopt x powopt .)
-    )               reduce using rule 9 (mon -> intopt x powopt .)
-
-
-state 20
-
-    (13) powopt -> ^ . INT
-
-    INT             shift and go to state 22
-
-
-state 21
-
-    (8) tm -> tm ( expr ) .
-
-    (               reduce using rule 8 (tm -> tm ( expr ) .)
-    +               reduce using rule 8 (tm -> tm ( expr ) .)
-    -               reduce using rule 8 (tm -> tm ( expr ) .)
-    $end            reduce using rule 8 (tm -> tm ( expr ) .)
-    )               reduce using rule 8 (tm -> tm ( expr ) .)
-
-
-state 22
-
-    (13) powopt -> ^ INT .
-
-    (               reduce using rule 13 (powopt -> ^ INT .)
-    +               reduce using rule 13 (powopt -> ^ INT .)
-    -               reduce using rule 13 (powopt -> ^ INT .)
-    $end            reduce using rule 13 (powopt -> ^ INT .)
-    )               reduce using rule 13 (powopt -> ^ INT .)
-
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for CONJUCTION in state 9 resolved as shift
+WARNING: shift/reduce conflict for DISJUCTION in state 9 resolved as shift
+WARNING: shift/reduce conflict for IMPLICATION in state 9 resolved as shift
+WARNING: shift/reduce conflict for CONJUCTION in state 10 resolved as shift
+WARNING: shift/reduce conflict for DISJUCTION in state 10 resolved as shift
+WARNING: shift/reduce conflict for IMPLICATION in state 10 resolved as shift
+WARNING: shift/reduce conflict for CONJUCTION in state 11 resolved as shift
+WARNING: shift/reduce conflict for DISJUCTION in state 11 resolved as shift
+WARNING: shift/reduce conflict for IMPLICATION in state 11 resolved as shift
