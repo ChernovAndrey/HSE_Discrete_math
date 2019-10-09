@@ -136,10 +136,18 @@ def run(s, print_list=False):
     return res
 
 
-flag_print = False
-assert (run('a /\ ~a', flag_print) == NO_SAT)
-assert (run('a /\ a', flag_print) == SAT)
-assert (run('a -> b', flag_print) == SAT)
-assert (run('(a -> b) /\ (b->c) /\ (c -> d) /\ (~d) /\ (a)', flag_print) == NO_SAT)
-assert (run('(p -> q) /\ (~r \/ s) /\ (~q -> p)', flag_print) == SAT)
-assert (run('(a\/~b)/\(b\/c)/\(~a\/c)/\ e /\(~e\/~c)', flag_print) == NO_SAT)
+flag_print =True
+# assert (run('a /\ ~a', flag_print) == NO_SAT)
+# assert (run('a /\ a', flag_print) == SAT)
+# assert (run('a -> b', flag_print) == SAT)
+# assert (run('(a -> b) /\ (b->c) /\ (c -> d) /\ (~d) /\ (a)', flag_print) == NO_SAT)
+# assert (run('(p -> q) /\ (~r \/ s) /\ (~q -> p)', flag_print) == SAT)
+# assert (run('(a\/~b)/\(b\/c)/\(~a\/c)/\ e /\(~e\/~c)', flag_print) == NO_SAT)
+while True:
+    try:
+        s = input('type formula: \n')  # Use raw_input on Python 2
+        import time
+        print(run(s))
+    except EOFError:
+        break
+    # parser.parse(s)
