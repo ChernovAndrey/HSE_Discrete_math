@@ -145,9 +145,8 @@ flag_print =True
 # assert (run('(a\/~b)/\(b\/c)/\(~a\/c)/\ e /\(~e\/~c)', flag_print) == NO_SAT)
 while True:
     try:
-        s = input('type formula: \n')  # Use raw_input on Python 2
+        s = input('type formula: \n')
         import time
         print(run(s))
     except EOFError:
         break
-    # parser.parse(s)
